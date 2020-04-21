@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class Tube {
     public static final int TUBE_WIDGH = 75;
-    private static final int FLUCTUATION = 500;
-    private static final int TUBE_GAP = 120;
+    private static final int FLUCTUATION = 480;
+    private static final int TUBE_GAP = 150;
     private static final int LOWEST_OPENING = 240;
 
     private Texture topTube;

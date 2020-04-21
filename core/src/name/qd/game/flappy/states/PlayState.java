@@ -10,7 +10,7 @@ import name.qd.game.flappy.spirits.Bird;
 import name.qd.game.flappy.spirits.Tube;
 
 public class PlayState extends State {
-    private static final int TUBE_SPACING = 200;
+    private static final int TUBE_SPACING = 300;
     private static final int TUBE_COUNT = 4;
     private Bird bird;
     private Texture background;
@@ -18,7 +18,8 @@ public class PlayState extends State {
 
     public PlayState(GameStateManager gameStateManager) {
         super(gameStateManager);
-//        camera.setToOrtho(false, FlappyDemo.WIDTH / 2, FlappyDemo.HEIGHT / 2);
+
+        // 設定攝影機可視大小
         camera.setToOrtho(false, FlappyDemo.WIDTH, FlappyDemo.HEIGHT);
         bird = new Bird(FlappyDemo.WIDTH / 4, FlappyDemo.HEIGHT / 2);
         background = new Texture("bg.png");
@@ -39,14 +40,12 @@ public class PlayState extends State {
     @Override
     public void update(float deltaTime) {
         handleInput();
+        camera.position.x = bird.getPosition().x + (FlappyDemo.WIDTH / 4);
         bird.update(deltaTime);
-        camera.position.x = bird.getPosition().x - 100;
-
-
 
         for(Tube tube : tubes) {
-            if(camera.position.x  > tube.getTopPosition().x + tube.getTopTube().getWidth()) {
-                tube.reposition(tube.getTopPosition().x + ((Tube.TUBE_WIDGH + TUBE_SPACING) * TUBE_COUNT));
+            if(camera.position.x - (FlappyDemo.WIDTH / 2)  > tube.getTopPosition().x + tube.getTopTube().getWidth()) {
+                tube.reposition(tube.getTopPosition().x + ((Tube.TUBE_WIDGH + TUBE_SPACING) * (TUBE_COUNT - 1)));
             }
         }
         camera.update();
