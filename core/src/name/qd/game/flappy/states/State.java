@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 public abstract class State {
     protected OrthographicCamera camera;
     protected Vector3 vector3;
-    protected name.qd.game.flappy.states.GameStateManager gameStateManager;
+    protected GameStateManager gameStateManager;
 
     protected State(GameStateManager gameStateManager) {
         this.gameStateManager = gameStateManager;

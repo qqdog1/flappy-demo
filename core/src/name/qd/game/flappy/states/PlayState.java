@@ -3,6 +3,7 @@ package name.qd.game.flappy.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 
 import java.util.LinkedList;
 
@@ -16,6 +17,8 @@ public class PlayState extends State {
     private Bird bird;
     private Texture background;
     private LinkedList<Tube> tubes;
+    private int score = 0;
+    private int x = 0;
 
     public PlayState(GameStateManager gameStateManager) {
         super(gameStateManager);
@@ -46,11 +49,11 @@ public class PlayState extends State {
 
         Tube tube = tubes.peek();
         if(tube.collides(bird.getBound()) || bird.getPosition().y == 0) {
-            gameStateManager.set(new PlayState(gameStateManager));
+            gameStateManager.set(new ScoredState(gameStateManager, score));
         }
 
         if(camera.position.x - (FlappyDemo.WIDTH / 2)  > tube.getTopPosition().x + tube.getTopTube().getWidth()) {
-            tube.reposition(tube.getTopPosition().x + ((Tube.TUBE_WIDTH + TUBE_SPACING) * (TUBE_COUNT - 1)));
+            tube.reposition(tube.getTopPosition().x + ((TUBE_SPACING * (TUBE_COUNT - 1) + Tube.TUBE_WIDTH * TUBE_COUNT)));
             tubes.poll();
             tubes.add(tube);
         }
@@ -59,9 +62,10 @@ public class PlayState extends State {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
+        if(x == 435) x = 0;
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
-        spriteBatch.draw(background, camera.position.x - (camera.viewportWidth / 2), 0);
+        spriteBatch.draw(background, camera.position.x - (camera.viewportWidth / 2) - x++, 0);
         spriteBatch.draw(bird.getTexture(), bird.getPosition().x, bird.getPosition().y);
         for(Tube tube : tubes) {
             spriteBatch.draw(tube.getTopTube(), tube.getTopPosition().x, tube.getTopPosition().y);
@@ -77,7 +81,6 @@ public class PlayState extends State {
         for(Tube tube : tubes) {
             tube.dispose();
         }
-
-        System.out.println("Play state disposed.");
+        camera.position.x = 0;
     }
 }

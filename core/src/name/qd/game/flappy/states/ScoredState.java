@@ -3,24 +3,25 @@ package name.qd.game.flappy.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
-import name.qd.game.flappy.FlappyDemo;
-
-public class MenuState extends State {
+public class ScoredState extends State {
+    private int score;
+    private Array<Texture> scores;
     private Texture background;
-    private Texture playBtn;
     private int x = 0;
 
-    public MenuState(GameStateManager gameStateManager) {
+    public ScoredState(GameStateManager gameStateManager, int score) {
         super(gameStateManager);
+        this.score = score;
+        scores = new Array<>();
         background = new Texture("bg.png");
-        playBtn = new Texture("playbtn.png");
     }
 
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()) {
-            gameStateManager.set(new PlayState(gameStateManager));
+            gameStateManager.set(new MenuState(gameStateManager));
         }
     }
 
@@ -34,13 +35,14 @@ public class MenuState extends State {
         if(x == -435) x = 0;
         spriteBatch.begin();
         spriteBatch.draw(background, x--, 0);
-        spriteBatch.draw(playBtn, (FlappyDemo.WIDTH/2) - (playBtn.getWidth()/2), (FlappyDemo.HEIGHT/2) - (playBtn.getHeight()/2));
         spriteBatch.end();
     }
 
     @Override
     public void dispose() {
-        background.dispose();;
-        playBtn.dispose();
+        background.dispose();
+        for(Texture number : scores) {
+            number.dispose();
+        }
     }
 }

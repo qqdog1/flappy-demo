@@ -16,8 +16,7 @@ public class FlappyDemo extends ApplicationAdapter {
 
 	private GameStateManager gameStateManager;
 	private SpriteBatch batch;
-	Texture img;
-	
+
 	@Override
 	public void create () {
 		gameStateManager = new GameStateManager();
@@ -36,6 +35,5 @@ public class FlappyDemo extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 	}
 }
