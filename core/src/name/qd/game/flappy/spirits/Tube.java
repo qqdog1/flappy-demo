@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.Random;
 
 public class Tube {
-    public static final int TUBE_WIDGH = 75;
+    public static final int TUBE_WIDTH = 75;
     private static final int FLUCTUATION = 480;
     private static final int TUBE_GAP = 150;
     private static final int LOWEST_OPENING = 240;
@@ -65,5 +65,10 @@ public class Tube {
 
     public boolean collides(Circle player) {
         return Intersector.overlaps(player, boundsTop) || Intersector.overlaps(player, boundsBottom);
+    }
+
+    public void dispose() {
+        topTube.dispose();
+        bottomTube.dispose();
     }
 }

@@ -15,11 +15,11 @@ public class GameStateManager {
     }
 
     public void pop() {
-        status.pop();
+        status.pop().dispose();
     }
 
     public void set(State state) {
-        status.pop();
+        status.pop().dispose();
         status.push(state);
     }
 

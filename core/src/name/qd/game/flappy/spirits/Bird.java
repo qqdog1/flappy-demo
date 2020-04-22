@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 public class Bird {
     private static final int GRAVITY = -10;
     private static final int MOVEMENT = 100;
+    private static final int JUMP_HEIGHT = 300;
     private Vector3 position;
     private Vector3 velocity;
     private Texture bird;
@@ -33,8 +34,12 @@ public class Bird {
         bound.setPosition(position.x + (bird.getWidth()/2), position.y + (bird.getHeight()/2));
     }
 
+    public void dispose() {
+        bird.dispose();
+    }
+
     public void jump() {
-        velocity.y = 300;
+        velocity.y = JUMP_HEIGHT;
     }
 
     public Vector3 getPosition() {

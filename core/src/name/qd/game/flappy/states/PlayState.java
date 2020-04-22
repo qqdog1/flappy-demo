@@ -3,7 +3,6 @@ package name.qd.game.flappy.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 
 import java.util.LinkedList;
 
@@ -28,7 +27,7 @@ public class PlayState extends State {
         tubes = new LinkedList<>();
 
         for(int i = 0 ; i < TUBE_COUNT; i++) {
-            tubes.add(new Tube(FlappyDemo.WIDTH + (i * TUBE_SPACING + Tube.TUBE_WIDGH)));
+            tubes.add(new Tube(FlappyDemo.WIDTH + (i * TUBE_SPACING + Tube.TUBE_WIDTH)));
         }
     }
 
@@ -46,12 +45,12 @@ public class PlayState extends State {
         bird.update(deltaTime);
 
         Tube tube = tubes.peek();
-        if(tube.collides(bird.getBound())) {
+        if(tube.collides(bird.getBound()) || bird.getPosition().y == 0) {
             gameStateManager.set(new PlayState(gameStateManager));
         }
 
         if(camera.position.x - (FlappyDemo.WIDTH / 2)  > tube.getTopPosition().x + tube.getTopTube().getWidth()) {
-            tube.reposition(tube.getTopPosition().x + ((Tube.TUBE_WIDGH + TUBE_SPACING) * (TUBE_COUNT - 1)));
+            tube.reposition(tube.getTopPosition().x + ((Tube.TUBE_WIDTH + TUBE_SPACING) * (TUBE_COUNT - 1)));
             tubes.poll();
             tubes.add(tube);
         }
@@ -73,6 +72,12 @@ public class PlayState extends State {
 
     @Override
     public void dispose() {
+        bird.dispose();
+        background.dispose();
+        for(Tube tube : tubes) {
+            tube.dispose();
+        }
 
+        System.out.println("Play state disposed.");
     }
 }
