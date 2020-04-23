@@ -71,7 +71,12 @@ public class PlayState extends State {
             spriteBatch.draw(tube.getTopTube(), tube.getTopPosition().x, tube.getTopPosition().y);
             spriteBatch.draw(tube.getBottomTube(), tube.getBottomPosition().x, tube.getBottomPosition().y);
         }
+        showScore(spriteBatch);
         spriteBatch.end();
+    }
+
+    private void showScore(SpriteBatch spriteBatch) {
+
     }
 
     @Override
