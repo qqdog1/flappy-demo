@@ -1,8 +1,12 @@
 package name.qd.game.flappy.spirits;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+
 
 public class Bird {
     private static final int GRAVITY = -10;
@@ -10,17 +14,22 @@ public class Bird {
     private static final int JUMP_HEIGHT = 300;
     private Vector3 position;
     private Vector3 velocity;
-    private Texture bird;
-    private Circle bound;
+    private Texture texture;
+    private Animation birdAnimation;
+    private Rectangle bound;
+    private Sound flapSound;
 
     public Bird(int x, int y) {
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0, 0);
-        bird = new Texture("bird.png");
-        bound = new Circle(x + (bird.getWidth()/2), y + (bird.getHeight()/2), bird.getHeight()/2);
+        texture = new Texture("bird-anima.png");
+        birdAnimation = new Animation(new TextureRegion(texture), 2, 0.5f);
+        bound = new Rectangle(x , y, texture.getWidth()/2, texture.getHeight());
+        flapSound = Gdx.audio.newSound(Gdx.files.internal("swish1.mp3"));
     }
 
     public void update(float deltaTime) {
+        birdAnimation.update(deltaTime);
         if(position.y > 0) {
             velocity.add(0, GRAVITY, 0);
         }
@@ -31,26 +40,28 @@ public class Bird {
         }
 
         velocity.scl(1/deltaTime);
-        bound.setPosition(position.x + (bird.getWidth()/2), position.y + (bird.getHeight()/2));
+        bound.setPosition(position.x, position.y);
     }
 
     public void dispose() {
-        bird.dispose();
+        texture.dispose();
+        flapSound.dispose();
     }
 
     public void jump() {
         velocity.y = JUMP_HEIGHT;
+        flapSound.play();
     }
 
     public Vector3 getPosition() {
         return position;
     }
 
-    public Texture getTexture() {
-        return bird;
+    public TextureRegion getTexture() {
+        return birdAnimation.getCurrentFrame();
     }
 
-    public Circle getBound() {
+    public Rectangle getBound() {
         return bound;
     }
 }

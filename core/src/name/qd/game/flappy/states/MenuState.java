@@ -31,6 +31,7 @@ public class MenuState extends State {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
+        spriteBatch.setProjectionMatrix(camera.combined);
         if(x == -435) x = 0;
         spriteBatch.begin();
         spriteBatch.draw(background, x--, 0);

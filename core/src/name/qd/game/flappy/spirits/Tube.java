@@ -23,7 +23,7 @@ public class Tube {
     private Random random;
 
     public Tube(float x) {
-        topTube = new Texture("topTube.png");
+        topTube = new Texture("toptube.png");
         bottomTube = new Texture("tube.png");
         random = new Random();
         topPosition = new Vector2(x, random.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
@@ -65,6 +65,10 @@ public class Tube {
 
     public boolean collides(Circle player) {
         return Intersector.overlaps(player, boundsTop) || Intersector.overlaps(player, boundsBottom);
+    }
+
+    public boolean collides(Rectangle player) {
+        return player.overlaps(boundsTop) || player.overlaps(boundsBottom);
     }
 
     public void dispose() {

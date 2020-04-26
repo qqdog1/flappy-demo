@@ -23,8 +23,6 @@ public class PlayState extends State {
     public PlayState(GameStateManager gameStateManager) {
         super(gameStateManager);
 
-        // 設定攝影機可視大小
-        camera.setToOrtho(false, FlappyDemo.WIDTH, FlappyDemo.HEIGHT);
         bird = new Bird(FlappyDemo.WIDTH / 4, FlappyDemo.HEIGHT / 2);
         background = new Texture("bg.png");
         tubes = new LinkedList<>();
